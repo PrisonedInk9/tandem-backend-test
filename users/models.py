@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 # Create your models here.
@@ -32,3 +33,16 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+
+class LoginHistory(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='logins')
+    login_time = models.DateTimeField(auto_now_add=True, verbose_name='login time')
+
+    class Meta:
+        verbose_name = 'Login history'
+        verbose_name_plural = 'Logins history'
+        ordering = ['-login_time']
+
+    def __str__(self):
+        return f"{self.user.username} - {self.login_time}"
