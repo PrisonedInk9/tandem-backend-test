@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser, LoginHistory
 
 # Register your models here.
 @admin.register(CustomUser)
@@ -25,3 +25,18 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('username', 'password'),
         }),
     )
+
+
+@admin.register(LoginHistory)
+class LoginHistoryAdmin(admin.ModelAdmin):
+    list_display = ('user', 'login_time')
+    list_filter = ('login_time',)
+    search_fields = ('user__username',)
+    
+    readonly_fields = ('user', 'login_time')
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
