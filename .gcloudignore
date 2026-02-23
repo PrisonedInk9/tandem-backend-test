@@ -1,0 +1,49 @@
+# .gcloudignore file
+# Exclude files from upload to Cloud Build
+
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+.pytest_cache
+.coverage
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Development
+.env
+.env.local
+db.sqlite3
+*.log
+
+# Docker
+docker-compose.yml
+.dockerignore
+
+# Documentation
+*.md
+docs/
+
+# Testing
+.github/
+.gitlab-ci.yml
+
+# Other
+node_modules/
+dist/
+build/
