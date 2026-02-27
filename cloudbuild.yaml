@@ -16,18 +16,20 @@ steps:
       - 'gcr.io/$PROJECT_ID/tandem-backend:$SHORT_SHA'
 
   # Step 3: Deploy to Cloud Run
-  - name: 'gcr.io/cloud-builders/gcloud'
+    name: 'gcr.io/cloud-builders/gcloud'
     args:
       - 'run'
       - 'deploy'
-      - 'tandem-backend'
+      - 'tandem-backend-test'
       - '--image=gcr.io/$PROJECT_ID/tandem-backend:$SHORT_SHA'
-      - '--region=us-central1'
+      - '--region=europe-west3'
       - '--platform=managed'
+      - '--network=webapp-vpc-test'
+      - '--subnet=webapp-test-subnet-1'
+      - '--network-interface=eth0'
       - '--memory=512Mi'
       - '--cpu=1'
       - '--timeout=3600'
-      - '--add-cloudsql-instances=${_CLOUD_SQL_INSTANCE}'
       - '--update-secrets=DATABASE_URL=database-url:latest'
       - '--update-secrets=ALLOWED_HOSTS=allowed-hosts:latest'
       - '--update-secrets=SECRET_KEY=secret-key:latest'
@@ -39,7 +41,7 @@ images:
   - 'gcr.io/$PROJECT_ID/tandem-backend:latest'
 
 substitutions:
-  _CLOUD_SQL_INSTANCE: 'PROJECT_ID:REGION:INSTANCE_NAME'
+  _CLOUD_SQL_INSTANCE: 'webapp-test-project-487812:europe-west3:webapp-test-postgresql'
 
 options:
   machineType: 'N1_HIGHCPU_8'
