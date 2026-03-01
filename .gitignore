@@ -1,11 +1,7 @@
 .env
-.env.local
-db.sqlite3
+
 __pycache__/
-*.pyc
-.pytest_cache/
-.coverage
-venv/
-env/
-*.egg-info/
-*.log
+*.py[cod]
+*$py.class
+
+/media
