@@ -7,8 +7,5 @@ urlpatterns = [
 
     path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-
-    path('api/users/', include('users.urls')),  #
-
     path('history/', UserLoginHistoryView.as_view(), name='login_history')
 ]
