@@ -16,3 +16,7 @@ django-cors-headers==4.3.1
 
 # API framework
 djangorestframework==3.14.0
+
+# API framework
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.3.2
