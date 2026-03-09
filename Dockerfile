@@ -22,16 +22,13 @@ COPY . .
 RUN mkdir -p /app/staticfiles
 RUN python manage.py collectstatic --noinput --clear
 
-# Setup entrypoint
-COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh
-
 EXPOSE 8080
-ENTRYPOINT ["./entrypoint.sh"]
-CMD ["gunicorn", \
-     "tandem_backend.wsgi:application", \
-     "--bind", "0.0.0.0:8080", \
-     "--workers", "1", \
-     "--worker-class", "sync", \
-     "--timeout", "120", \
-     "--max-requests", "100"]
+
+CMD python manage.py collectstatic --noinput && \
+    python manage.py migrate && \
+    gunicorn tandem_backend.wsgi:application \
+    --bind 0.0.0.0:8080 \
+    --workers 1 \
+    --worker-class sync \
+    --timeout 120 \
+    --max-requests 100
