@@ -27,9 +27,4 @@ EXPOSE 8080
 CMD python manage.py collectstatic --noinput && \
     python manage.py migrate && \
     gunicorn tandem_backend.wsgi:application \
-    --bind 0.0.0.0:8080 \
-    --workers 2 \
-    --worker-class sync \
-    --timeout 120 \
-    --max-requests 1000 \
-    --preload-app
+    --config gunicorn_config.py
