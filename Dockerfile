@@ -28,7 +28,7 @@ CMD python manage.py collectstatic --noinput && \
     python manage.py migrate && \
     gunicorn tandem_backend.wsgi:application \
     --bind 0.0.0.0:8080 \
-    --workers 1 \
+    --workers 2 \
     --worker-class sync \
     --timeout 120 \
-    --max-requests 100
+    --max-requests 1000
