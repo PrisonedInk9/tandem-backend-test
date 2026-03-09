@@ -31,4 +31,5 @@ CMD python manage.py collectstatic --noinput && \
     --workers 2 \
     --worker-class sync \
     --timeout 120 \
-    --max-requests 1000
+    --max-requests 1000 \
+    --preload-app
