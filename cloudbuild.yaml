@@ -5,17 +5,15 @@ steps:
       - 'build'
       - '-t'
       - 'gcr.io/$PROJECT_ID/tandem-backend:$SHORT_SHA'
-      - '-t'
-      - 'gcr.io/$PROJECT_ID/tandem-backend:latest'
       - '.'
 
-  # Step 2: Push image to Container Registry
+  # Step 2: Push to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
       - 'gcr.io/$PROJECT_ID/tandem-backend:$SHORT_SHA'
 
-  # Step 3: Deploy to Cloud Run (note the '-' list marker)
+  # Step 3: Deploy to Cloud Run
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - 'run'
@@ -26,10 +24,9 @@ steps:
       - '--platform=managed'
       - '--network=webapp-vpc-test'
       - '--subnet=webapp-test-subnet-1'
-      - '--network-interface=eth0'
-      - '--memory=512Mi'
-      - '--cpu=1'
       - '--timeout=3600'
+      - '--startup-cpu-boost'
+      - '--http-async-init'
       - '--update-secrets=DATABASE_URL=database-url:latest'
       - '--update-secrets=ALLOWED_HOSTS=allowed-hosts:latest'
       - '--update-secrets=SECRET_KEY=secret-key:latest'
@@ -38,10 +35,6 @@ steps:
 
 images:
   - 'gcr.io/$PROJECT_ID/tandem-backend:$SHORT_SHA'
-  - 'gcr.io/$PROJECT_ID/tandem-backend:latest'
-
-substitutions:
-  _CLOUD_SQL_INSTANCE: 'webapp-test-project-487812:europe-west3:webapp-test-postgresql'
 
 options:
   machineType: 'N1_HIGHCPU_8'
